@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>
+            Demo&copy;cavacn.com
+        </title>
+    </head>
+    <body>
+        <canvas id="canvas" width="800" height="400" style="background:rgba(255,255,255,1);border:1px solid #999;"></canvas>
+    </body>
+    <script>
+        var $ = function(id){
+            return document.getElementById(id);
+        }
+        
+        var oCanvas = $("canvas");
+        
+        var ctx = oCanvas.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(10,10);
+        
+        ctx.lineTo(20,20);
+        
+        ctx.lineTo(20,40);
+        
+        ctx.lineTo(80,40);
+        
+        ctx.lineTo(10,10);
+        ctx.fill();
+        //ctx.closePath();
+        
+        
+        
+    </script>
+</html>

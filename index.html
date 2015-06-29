@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>
+            osr4html5&copy;cavacn.com
+        </title>
+		<meta charset="utf8"></meta>
+        <style>
+            html,body{margin:0px; auto;padding:0px;background-color:#000;}
+            .content{padding-top:100px;width:800px;height:600px;margin:0px auto;}
+            canvas{border:1px solid #666;background-color:#191919;}
+        </style>
+        <script src="./lib/cstock.js"></script>
+        <script src="./data.js"></script>
+    </head>
+    <body>
+        <div class="content">
+            <canvas id="canvas" height="800" width="800">
+            </canvas>
+        </div>
+    </body>
+    <script>
+        var stage = new Stage("canvas");
+        var kLineScreen = new KLineScreen({width:700,height:400,x:50,y:50,border:"#666",title:"中国石化(600028)",nodeWidth:5});
+        var volumeScreen = new VolumeScreen({width:700,height:100,x:50,y:460,border:"#666",title:"中国石化(600028)",nodeWidth:5});
+        var colorBarScreen = new ColorBarScreen({width:700,height:100,x:50,y:570,border:"#666",nodeWidth:5});
+        var tipsScreen = new TipsScreen();
+        stage.addScreen("kline",kLineScreen);
+        stage.addScreen("volume",volumeScreen);
+        stage.addScreen("colorbar",colorBarScreen);
+        stage.addScreen('tipsScreen',tipsScreen);
+        var data = myData.stock;
+        var canvas = myData.canvas;
+        for(var key in canvas){
+            if(canvas[key].opts.screen == "kline"){
+                kLineScreen.addLine(key,canvas[key].opts);
+            }else if(canvas[key].opts.screen == "colorbar"){
+                colorBarScreen.addLine(key,canvas[key].opts);
+            }
+        }
+        var interval = setInterval(function(){
+            //var item = data.shift();
+            var item = data.shift();
+            for(var key in canvas){
+                //var sub = canvas[key].position.shift();
+                var sub = canvas[key].position.shift();
+                item[key] = sub;
+            }
+            if(!item){
+                clearInterval(interval);
+                return;
+            }
+            kLineScreen.addStock(item);
+            volumeScreen.addStock(item);
+            colorBarScreen.addStock(item);
+        },100);
+        //stage.draw("kline");
+    </script>
+</html>
